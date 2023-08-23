@@ -1,0 +1,20 @@
+name: ted_spad
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=11.7
+  - segmentation-models-pytorch
+  - opencv
+  - scikit-learn
+  - tensorboardx
+  - matplotlib
+  - pandas
+  - visdom
+  - einops
+  - torchinfo
+  - imageio=2.26.0
+prefix: /home/joefioresi/anaconda3/envs/ted_spad
