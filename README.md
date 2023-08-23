@@ -1,8 +1,8 @@
 # TeD-SPAD: Temporal Distinctiveness for Self-supervised Privacy-preservation for video Anomaly Detection [ICCV 2023]
-[Joseph Fioresi](joefioresi718.github.io), [Ishan Dave](joefioresi718.github.io), [Mubarak Shah](https://scholar.google.com/citations?user=p8gsO3gAAAAJ&hl=en&oi=ao)
+[Joseph Fioresi](https://joefioresi718.github.io/), [Ishan Dave](https://scholar.google.com/citations?hl=en&user=fWu6sFgAAAAJ), [Mubarak Shah](https://scholar.google.com/citations?user=p8gsO3gAAAAJ&hl=en&oi=ao)
 
 [![Website](https://img.shields.io/badge/Project-Website-87CEEB)](https://joefioresi718.github.io/TeD-SPAD_webpage/)
-[![paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2307.06947)
+[![paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2308.11072)
 
 Official PyTorch implementation and pre-trained models for TeD-SPAD: Temporal Distinctiveness for Self-supervised Privacy-preservation for video Anomaly Detection.
 
