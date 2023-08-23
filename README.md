@@ -7,10 +7,27 @@
 Official PyTorch implementation and pre-trained models for TeD-SPAD: Temporal Distinctiveness for Self-supervised Privacy-preservation for video Anomaly Detection.
 
 > **Abstract:**
-> Video anomaly detection (VAD) without human monitoring is a difficult computer vision task that can have a positive impact on society if implemented successfully. While recent advances have made significant progress in solving this task, most existing approaches overlook a critical real-world concern: privacy. With the increasing popularity of artificial intelligence technologies, it becomes crucial to implement proper AI ethics into their development. Privacy leakage in VAD allows models to pick up and amplify unnecessary biases related to people’s personal information, which may lead to undesirable decision making.
-> In this paper, we propose TeD-SPAD, a privacy-aware video anomaly detection framework that destroys visual private information in a self-supervised manner. In particular, we explore the impact of temporally-distinctive video representations for VAD, finding that temporal distinctiveness pairs well with current anomaly feature representation learning methods. We achieve a positive trade-off between privacy protection and utility anomaly detection performance on three popular weakly supervised VAD datasets: UCF-Crime, XD-Violence, and ShanghaiTech. Our proposed anonymization model reduces private attribute prediction by 32.25% while only reducing frame-level ROC AUC on the UCF-Crime anomaly detection dataset by 3.69%.
+> Video anomaly detection (VAD) without human monitoring is a complex computer vision task that can have a positive impact on society if implemented successfully. While recent advances have made significant progress in solving this task, most existing approaches overlook a critical real-world concern: privacy. With the increasing popularity of artificial intelligence technologies, it becomes crucial to implement proper AI ethics into their development. Privacy leakage in VAD allows models to pick up and amplify unnecessary biases related to people’s personal information, which may lead to undesirable decision making.
+> In this paper, we propose TeD-SPAD, a privacy-aware video anomaly detection framework that destroys visual private information in a self-supervised manner. In particular, we propose the use of a temporally-distinct triplet loss to promote temporally discriminative features, which complements current weakly-supervised VAD methods. Using TeD-SPAD, we achieve a positive trade-off between privacy protection and utility anomaly detection performance on three popular weakly supervised VAD datasets: UCF-Crime, XD-Violence, and ShanghaiTech. Our proposed anonymization model reduces private attribute prediction by 32.25% while only reducing frame-level ROC AUC on the UCF-Crime anomaly detection dataset by 3.69%.
 
 ## Usage
+
+### Dataset Setup
+```bash
+# Download necessary datasets.
+# UCF101
+mkdir datasets && cd datasets
+wget https://www.crcv.ucf.edu/data/UCF101/UCF101.rar --no-check-certificate
+unrar x UCF101.rar
+rm -rf UCF101.rar
+wget https://www.crcv.ucf.edu/data/UCF101/UCF101TrainTestSplits-RecognitionTask.zip --no-check-certificate
+unzip UCF101TrainTestSplits-RecognitionTask.zip
+rm -rf UCF101TrainTestSplits-RecognitionTask.zip
+
+cd aux_code
+# Edit config.py to point paths to correct directory.
+nano config.py
+```
 
 ### Environment Setup
 ```bash
