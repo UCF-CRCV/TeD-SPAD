@@ -31,6 +31,7 @@ cd aux_code
 # Edit config.py to point paths to correct directory.
 nano config.py
 ```
+<sub> ** Move *action_classes.json* into UCF101/ucfTrainTestlist/ </sub>
 
 
 ### Environment Setup
