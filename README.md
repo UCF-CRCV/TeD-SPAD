@@ -13,6 +13,9 @@ Official PyTorch implementation and pre-trained models for TeD-SPAD: Temporal Di
 ## Usage
 
 ### Dataset Setup
+[UCF-Crime Page](https://www.crcv.ucf.edu/projects/real-world/)
+
+[VISPR Page](https://tribhuvanesh.github.io/vpa/)
 ```bash
 # Download necessary datasets.
 # UCF101
@@ -29,6 +32,7 @@ cd aux_code
 nano config.py
 ```
 
+
 ### Environment Setup
 ```bash
 # Clone the repo.
@@ -44,26 +48,43 @@ conda env create -f ted_spad.yml
 # Update aux_code/config.py paths to match dataset directories.
 ```
 
-### Anonymization Training
+Extracted features/model weights: [OneDrive](https://1drv.ms/f/s!Ah-hee3NbVf7ge97m4_amfmsrmHKig?e=etleeR)
+
+### Usage Instructions
+1. Navigate to desired directory
+2. Modify parameters python file if necessary
+3. Run the main python file
+
+Example:
 ```bash
+# Anonymization Training.
 cd anonymization_training
 python train_anonymizer.py
-```
 
-### Privacy Evaluation
-```bash
+# Privacy Evaluation.
 cd privacy_training
 python train_privacy.py
+
+# Action Recognition Training.
+cd action_training
+python train_action.py
+
+# Feature Extraction.
+cd feature_extraction
+# ShanghaiTech
+python st_feature_extraction.py
+# UCF_Crime/XD-Violence
+python dali_extraction.py
+
+# Anonymization Visualization.
+cd visualization
+python visualize_anonymization.py
 ```
 
-### Feature Extraction
-```bash
-cd feature_extraction
-python dali_extraction.py
-```
 
 ### Anomaly Detection Evaluation
 Code taken from [MGFN](https://github.com/carolchenyx/MGFN) repo with minor changes to support our workflow.
+- Extract/download features, place in 'anomaly_detection_mgfn/data/'
 ```bash
 cd anomaly_detection_mgfn
 python main.py
