@@ -15,7 +15,7 @@ Official PyTorch implementation and pre-trained models for TeD-SPAD: Temporal Di
 ### Dataset Setup
 [UCF-Crime Page](https://www.crcv.ucf.edu/projects/real-world/)
 
-[VISPR Page](https://tribhuvanesh.github.io/vpa/)
+[VISPR Page](https://tribhuvanesh.github.io/vpa/) -- The VISPR labels used are included in 'vispr_labels'
 ```bash
 # Download necessary datasets.
 # UCF101
