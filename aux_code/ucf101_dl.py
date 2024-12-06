@@ -417,7 +417,7 @@ class contrastive_train_dataloader(Dataset):
                 else:
                     skip_frames_full /= 2
                     left_over = frame_count - skip_frames_full*self.params.num_frames
-                    start_frame_full = np.random.randint(0, int(left_over)) 
+                    start_frame_full = np.random.randint(0, int(max(0, left_over))) 
                 
                 if self.params.temporal_loss == 'trip':
                     temporal_align = True
@@ -472,8 +472,8 @@ class contrastive_train_dataloader(Dataset):
             self.min_size = min(self.ori_reso_h, self.ori_reso_w)
 
             random_array = np.random.rand(3,10)
-            x_erase = np.random.randint(0,self.params.reso_w, size = (3,))
-            y_erase = np.random.randint(0,self.params.reso_h, size = (3,))
+            x_erase = np.random.randint(0,self.params.reso_w, size = (3,2))
+            y_erase = np.random.randint(0,self.params.reso_h, size = (3,2))
 
             # On an average cropping, factor is 80% i.e. covers 64% area.
             cropping_factor1 = np.random.uniform(self.params.min_crop_factor_training, 1, size = (3,)) 
@@ -495,20 +495,21 @@ class contrastive_train_dataloader(Dataset):
             saturation_factor1 = np.random.uniform(0.9,1.1, size = (3,))
             brightness_factor1 = np.random.uniform(0.9,1.1,size = (3,))
             gamma1 = np.random.uniform(0.85,1.15, size = (3,))
-            erase_size1 = np.random.randint(int((self.ori_reso_h/6)*(self.params.reso_h/224)),int((self.ori_reso_h/3)*(self.params.reso_h/224)), size = (3,))
-            erase_size2 = np.random.randint(int((self.ori_reso_w/6)*(self.params.reso_h/224)),int((self.ori_reso_w/3)*(self.params.reso_h/224)), size = (3,))
+            erase_size1 = np.random.randint(int((self.ori_reso_h/6)*(self.params.reso_h/224)),int((self.ori_reso_h/3)*(self.params.reso_h/224)), size = (3,2))
+            erase_size2 = np.random.randint(int((self.ori_reso_w/6)*(self.params.reso_h/224)),int((self.ori_reso_w/3)*(self.params.reso_h/224)), size = (3,2))
             random_color_dropped = np.random.randint(0,3,(3))
 
             for frame in frames:
-                frame = torch.flip(frame.permute(2, 0, 1), dims=[0])
+                # frame = torch.flip(frame.permute(2, 0, 1), dims=[0])
+                frame = frame.permute(2, 0, 1)
                 if self.framewise_aug:
                     contrast_factor1 = np.random.uniform(0.9,1.1, size = (3,))
                     hue_factor1 = np.random.uniform(-0.05,0.05, size = (3,))
                     saturation_factor1 = np.random.uniform(0.9,1.1, size = (3,))
                     brightness_factor1 = np.random.uniform(0.9,1.1,size = (3,))
                     gamma1 = np.random.uniform(0.85,1.15, size = (3,))
-                    erase_size1 = np.random.randint(int(self.erase_size/2),self.erase_size, size = (3,))
-                    erase_size2 = np.random.randint(int(self.erase_size/2),self.erase_size, size = (3,))
+                    erase_size1 = np.random.randint(int(self.erase_size/2),self.erase_size, size = (3,2))
+                    erase_size2 = np.random.randint(int(self.erase_size/2),self.erase_size, size = (3,2))
                     random_color_dropped = np.random.randint(0,3,(3))
 
                 if self.params.weak_aug:
@@ -516,33 +517,35 @@ class contrastive_train_dataloader(Dataset):
                     if temporal_align:
                         full_clip2.append(self.weak_augmentation(frame, cropping_factor1[1], x0, y0))
                 else:
-                    full_clip.append(self.augmentation(frame, random_array[0], x_erase, y_erase, cropping_factor1[0],\
+                    full_clip.append(self.augmentation(frame, random_array[0], x_erase[0], y_erase[0], cropping_factor1[0],\
                         x0, y0, contrast_factor1[0], hue_factor1[0], saturation_factor1[0], brightness_factor1[0],\
-                        gamma1[0],erase_size1,erase_size2, random_color_dropped[0]))
+                        gamma1[0], erase_size1[0], erase_size2[0], random_color_dropped[0]))
                     if temporal_align:
-                        full_clip2.append(self.augmentation(frame, random_array[1], x_erase, y_erase, cropping_factor1[1],\
+                        full_clip2.append(self.augmentation(frame, random_array[1], x_erase[1], y_erase[1], cropping_factor1[1],\
                         x0, y0, contrast_factor1[1], hue_factor1[1], saturation_factor1[1], brightness_factor1[1],\
-                        gamma1[1],erase_size1,erase_size2, random_color_dropped[1]))
+                        gamma1[1], erase_size1[1], erase_size2[1], random_color_dropped[1]))
 
             if not temporal_align:
                 for frame in frames2:
-                    frame = torch.flip(frame.permute(2, 0, 1), dims=[0])
+                    # frame = torch.flip(frame.permute(2, 0, 1), dims=[0])
+                    frame = frame.permute(2, 0, 1)
                     if self.params.weak_aug:
                         full_clip2.append(self.weak_augmentation(frame, cropping_factor1[1], x0, y0))
                     else:
-                        full_clip2.append(self.augmentation(frame, random_array[1], x_erase, y_erase, cropping_factor1[1],\
+                        full_clip2.append(self.augmentation(frame, random_array[1], x_erase[1], y_erase[1], cropping_factor1[1],\
                             x0, y0, contrast_factor1[1], hue_factor1[1], saturation_factor1[1], brightness_factor1[1],\
-                            gamma1[1],erase_size1,erase_size2, random_color_dropped[1]))
+                            gamma1[1], erase_size1[1], erase_size2[1], random_color_dropped[1]))
 
             if self.params.temporal_loss == 'trip':
                 for frame in frames3:
-                    frame = torch.flip(frame.permute(2, 0, 1), dims=[0])
+                    # frame = torch.flip(frame.permute(2, 0, 1), dims=[0])
+                    frame = frame.permute(2, 0, 1)
                     if self.params.weak_aug:
                         full_clip3.append(self.weak_augmentation(frame, cropping_factor1[2], x0, y0))
                     else:
-                        full_clip3.append(self.augmentation(frame, random_array[2], x_erase, y_erase, cropping_factor1[2],\
+                        full_clip3.append(self.augmentation(frame, random_array[2], x_erase[2], y_erase[2], cropping_factor1[2],\
                             x0, y0, contrast_factor1[2], hue_factor1[2], saturation_factor1[2], brightness_factor1[2],\
-                            gamma1[2],erase_size1,erase_size2, random_color_dropped[2]))
+                            gamma1[2], erase_size1[2], erase_size2[2], random_color_dropped[2]))
 
             if len(full_clip) < self.params.num_frames and len(full_clip)>(self.params.num_frames/2) :
                 print(f'Clip {vid_path} is missing {self.params.num_frames-len(full_clip)} frames.')
@@ -936,9 +939,9 @@ def collate_fn_train(batch):
 if __name__ == '__main__':
     import anonymization_training.params_anonymization as params
     
-    train_dataset = single_train_dataloader(params=params, shuffle=True, data_percentage=0.1)
+    # train_dataset = single_train_dataloader(params=params, shuffle=True, data_percentage=0.1)
     # train_dataset = single_val_dataloader(params=params, shuffle=False, data_percentage=0.1)
-    # train_dataset = contrastive_train_dataloader(params=params, shuffle=False, data_percentage=0.1)
+    train_dataset = contrastive_train_dataloader(params=params, shuffle=True, data_percentage=0.1)
     # train_dataset = contrastive_val_dataloader(params=params, shuffle=False, data_percentage=0.1)
 
     train_dataloader = DataLoader(train_dataset, batch_size=params.batch_size, shuffle=False, collate_fn=collate_fn_train, num_workers=0)#params.num_workers)
@@ -947,10 +950,33 @@ if __name__ == '__main__':
     print(f'Steps involved: {len(train_dataset)/params.batch_size}')
     t = time.time()
 
+    import matplotlib.pyplot as plt
+
     for i, (clip, label, vid_path, frame_list) in enumerate(train_dataloader):
         if i % 10 == 0:
             print()
             print(f'Full_clip shape is {clip.shape}')
+
+            inputs1, inputs2, inputs3 = torch.split(clip, [params.num_frames, params.num_frames, params.num_frames], dim=1)
+            print(f'Inputs1 shape is {inputs1.shape}')
+            print(f'Inputs2 shape is {inputs2.shape}')
+            print(f'Inputs3 shape is {inputs3.shape}')
+
+            # Plot 8 frames from each input on same plot. Like this: anon_images = np.concatenate(torch.flip(output[::2], dims=[1]).cpu().numpy().transpose(0, 2, 3, 1), axis=1)
+            fig, ax = plt.subplots(3, 1, figsize=(10, 5))
+            clip1 = np.concatenate(inputs1[0][::2].cpu().numpy().transpose(0, 2, 3, 1), axis=1)
+            clip2 = np.concatenate(inputs2[0][::2].cpu().numpy().transpose(0, 2, 3, 1), axis=1)
+            clip3 = np.concatenate(inputs3[0][::2].cpu().numpy().transpose(0, 2, 3, 1), axis=1)
+            ax[0].imshow(clip1)
+            ax[0].axis('off')
+            ax[1].imshow(clip2)
+            ax[1].axis('off')
+            ax[2].imshow(clip3)
+            ax[2].axis('off')
+            plt.tight_layout()
+            plt.show()
+            exit()
+
             # print(f'Label is {label}')
             # print(f'Frame list is {frame_list}')
             continue
