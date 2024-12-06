@@ -18,7 +18,7 @@ num_frames = 16
 fix_skip = 2
 num_modes = 5
 num_skips = 1
-data_percentage = 0.1
+data_percentage = 1.0
 
 # Number of VISPR privacy attributes.
 num_pa = 7
@@ -60,7 +60,7 @@ fb_loss_weight = 1.0
 temporal_loss_weight = 0.1
 weight_inv = 0.0
 triplet_loss_margin = 1
-temporal_distance = 4
+temporal_distance = None
 
 # Validation augmentation params.
 hflip = [0]
