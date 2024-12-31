@@ -258,14 +258,14 @@ def val_epoch_video(epoch, mode, cropping_fac, pred_dict, label_dict, data_loade
                 # Compute loss.
                 loss = criterion(output, label)
 
-            if params.temporal_loss == 'trip':
-                if params.loss != 'con':
-                    _, feat2 = ft_model(inputs2)
-                _, feat3 = ft_model(inputs3)
+            # if params.temporal_loss == 'trip':
+            #     if params.loss != 'con':
+            #         _, feat2 = ft_model(inputs2)
+            #     _, feat3 = ft_model(inputs3)
 
-                # Compute temporal loss, append to loss.
-                loss_temporal = criterion_temporal(feat1, feat2, feat3)
-                loss = loss + params.temporal_loss_weight*loss_temporal
+            #     # Compute temporal loss, append to loss.
+            #     loss_temporal = criterion_temporal(feat1, feat2, feat3)
+            #     loss = loss + params.temporal_loss_weight*loss_temporal
 
         losses.append(loss.item())
 
@@ -344,13 +344,7 @@ def train_classifier(params, devices):
     learning_rate_ft = params.learning_rate_ft
 
     # Init loss functions.
-    # TODO: con loss?
-    if params.loss == 'con':
-        criterion_ft = None
-    elif params.loss == 'ce':
-        criterion_ft = nn.CrossEntropyLoss()
-    else:
-        raise NotImplementedError(f'Loss function {params.loss} not yet implemented.')
+    criterion_ft = nn.CrossEntropyLoss()
 
     if params.temporal_loss == 'trip':
         criterion_temporal_ft = nn.TripletMarginLoss(margin=params.triplet_loss_margin)

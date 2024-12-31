@@ -9,7 +9,7 @@ arch_ft = 'largei3d'
 arch_fa = 'unet++'
 arch_fb = 'r50'
 saved_model_fa = os.path.join('..', 'saved_models', 'fa_recon.pth')
-saved_model_ft = None
+saved_model_ft = os.path.join('..', 'saved_models', 'ft_i3d_ucf101.pth')
 saved_model_fb = os.path.join('..', 'saved_models', 'fb_ssl.pth')
 
 # Dataset parameters.
@@ -25,11 +25,11 @@ num_pa = 7
 data_percentage_vispr = 1.0
 
 # Training parameters.
-batch_size = 4
-batch_size_vispr = 4
-v_batch_size = 4
+batch_size = 8
+batch_size_vispr = 12
+v_batch_size = 8
 num_workers = 4
-learning_rate = 1e-4
+learning_rate = 1e-5
 num_epochs = 100
 loss = 'ce'
 temporal_loss = 'trip'
@@ -46,7 +46,7 @@ lr_patience = 2
 lr_reduce_factor = 2
 lr_scheduler = 'cosine' # 'patience_based' #'loss_based' (default) #'cosine'
 cosine_lr_array = list(np.linspace(0.01,1, 5)) + [(math.cos(x) + 1)/2 for x in np.linspace(0,math.pi/0.99, num_epochs-5)]
-val_freq = 3
+val_freq = 5
 opt_type = 'adam' # 'sgd' # 'adamw'
 ft_dropout = 0
 
@@ -65,7 +65,7 @@ temporal_distance = None
 # Validation augmentation params.
 hflip = [0]
 cropping_facs = [0.8]
-weak_aug = False
+weak_aug = True
 no_ar_distortion = False
 aspect_ratio_aug = False
 

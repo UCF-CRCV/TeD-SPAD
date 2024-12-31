@@ -141,7 +141,7 @@ class single_train_dataloader(Dataset):
 
             return full_clip, list_full
         except:
-            traceback.print_exc()
+            # traceback.print_exc()
             # print(f'Clip {vid_path} Failed, frame_count {frame_count}.')
             return None, None
 
@@ -587,7 +587,7 @@ class contrastive_train_dataloader(Dataset):
                 return None, None, None, None
         except:
             # traceback.print_exc()
-            print(f'Clip {vid_path} Failed')
+            # print(f'Clip {vid_path} Failed')
             if self.params.temporal_loss == 'trip':
                 return None, None, None, None, None, None
             return None, None, None, None
@@ -863,8 +863,8 @@ class contrastive_val_dataloader(Dataset):
 
             return full_clip1, full_clip2, list_full1, list_full2
         except:
-            traceback.print_exc()
-            print(f'Clip {vid_path} Failed, frame_count {frame_count}.')
+            # traceback.print_exc()
+            # print(f'Clip {vid_path} Failed, frame_count {frame_count}.')
             if self.params.temporal_loss == 'trip':
                 return None, None, None, None, None, None
             return None, None, None, None
