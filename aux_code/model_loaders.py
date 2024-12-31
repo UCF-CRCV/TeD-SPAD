@@ -76,7 +76,8 @@ def load_ft_model(arch='r3d', saved_model_file=None, num_classes=400, kin_pretra
                 from collections import OrderedDict
                 new_state_dict = OrderedDict()
                 for k, v in saved_dict['ft_model_state_dict'].items():
-                    name = k[7:]  # Remove 'module.'
+                    # name = k[7:]  # Remove 'module.'
+                    name = k.replace('scale', 'weight') # largei3d fix
                     new_state_dict[name] = v
                 ft_model.load_state_dict(new_state_dict, strict=True)
             except:
